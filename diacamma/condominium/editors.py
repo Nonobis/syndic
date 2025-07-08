@@ -199,6 +199,10 @@ class OwnerEditor(SupportingEditor):
         self._show_current_class_loads(xfer)
         self._show_call_payoff(xfer)
 
+        third_item = xfer.get_components('third')
+        xfer.tab = third_item.tab
+        self.add_email_status(xfer)
+
 
 class RecoverableLoadRatioEditor(LucteriosEditor):
 
@@ -250,7 +254,7 @@ class CallFundsEditor(LucteriosEditor):
 
     def before_save(self, xfer):
         if self.item.supporting is not None:
-            self.item.supporting.edit.before_save(xfer)
+            self.item.supporting.editor.before_save(xfer)
 
     def edit(self, xfer):
         xfer.change_to_readonly('status')
@@ -269,6 +273,7 @@ class CallFundsEditor(LucteriosEditor):
                 xfer.model = old_model
             if Params.getvalue('condominium-payoff-calloffunds') is False:
                 xfer.get_components('payoff').actions = []
+            self.item.supporting.editor.add_email_status(xfer)
         if self.item.status == CallFunds.STATUS_BUILDING:
             grid = xfer.get_components("calldetail")
             grid.delete_header('total_amount')
