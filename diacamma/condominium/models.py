@@ -1602,7 +1602,7 @@ class Expense(Supporting):
         info = []
         if self.status == self.STATUS_BUILDING:
             info = Supporting.get_info_state(self, current_system_account().get_provider_mask())
-        info.extend(self.check_date(self.date.isoformat()))
+        info.extend(self.check_date_current_year(self.date.isoformat()))
         return info
 
     def get_saved_pdfreport(self, recreate):
